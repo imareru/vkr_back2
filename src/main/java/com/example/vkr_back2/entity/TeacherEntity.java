@@ -1,5 +1,15 @@
 package com.example.vkr_back2.entity;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.beans.factory.annotation.Autowired;
+
+@Getter
+@Setter
+//@Data
 public class TeacherEntity extends BaseEntity {
     String t_surname;
     String t_name;
@@ -7,8 +17,9 @@ public class TeacherEntity extends BaseEntity {
     String t_login;
     String t_password;
     String t_birth_date;
+    Integer role_id;
 
-    public TeacherEntity(Integer id, String t_surname, String t_name, String t_patronymic, String t_login, String t_password, String t_birth_date) {
+    public TeacherEntity(Integer id, String t_surname, String t_name, String t_patronymic, String t_login, String t_password, String t_birth_date, Integer role_id) {
         super(id);
         this.t_surname = t_surname;
         this.t_name = t_name;
@@ -16,6 +27,7 @@ public class TeacherEntity extends BaseEntity {
         this.t_login = t_login;
         this.t_password = t_password;
         this.t_birth_date = t_birth_date;
+        this.role_id = role_id;
     }
 
     public String getT_surname() {
@@ -65,4 +77,5 @@ public class TeacherEntity extends BaseEntity {
     public void setT_birth_date(String t_birth_date) {
         this.t_birth_date = t_birth_date;
     }
+
 }

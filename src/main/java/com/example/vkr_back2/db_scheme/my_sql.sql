@@ -3,6 +3,12 @@ CREATE TABLE classes (
 	class_number integer NOT NULL
 	);
 
+CREATE TABLE users_roles (
+    role_id SERIAL PRIMARY KEY,
+    role_name VARCHAR(7) NOT NULL
+);
+
+
 CREATE TABLE students (
 	student_id SERIAL PRIMARY KEY, 
 	s_surname VARCHAR(30) NOT NULL, 

@@ -33,6 +33,7 @@ public class ClassResource extends BaseResource{
         this.class_number = class_number;
     }
 
+
     public StudentResource[] getOrder() {
         return order;
     }

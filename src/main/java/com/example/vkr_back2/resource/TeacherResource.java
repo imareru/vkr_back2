@@ -2,8 +2,17 @@ package com.example.vkr_back2.resource;
 
 import com.example.vkr_back2.entity.TeacherEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.stereotype.Service;
 
+
+@Getter
+@Setter
+@Service
 public class TeacherResource extends BaseResource{
+
+
 
     private Integer teacher_id;
     private String t_surname;
@@ -12,6 +21,7 @@ public class TeacherResource extends BaseResource{
     private String t_login;
     private String t_password;
     private String t_birth_date;
+    private Integer role_id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private SubjectResource[] subjectResources;
@@ -26,6 +36,7 @@ public class TeacherResource extends BaseResource{
         this.t_login = teacherEntity.getT_login();
         this.t_password = teacherEntity.getT_password();
         this.t_birth_date = teacherEntity.getT_birth_date();
+        this.role_id = teacherEntity.getRole_id();
     }
 
     public Integer getTeacher_id() {
@@ -104,7 +115,8 @@ public class TeacherResource extends BaseResource{
                 this.t_patronymic,
                 this.t_login,
                 this.t_password,
-                this.t_birth_date
+                this.t_birth_date,
+                this.role_id
         );
     }
 }
