@@ -13,30 +13,30 @@ public class StudentRepository implements IRestRepository<StudentEntity> {
 
     protected final JdbcOperations jdbcOperations;
 
-    private static String selectQuery = "SELECT \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\"" +
+    private static String selectQuery = "SELECT \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\", \"role_id\"" +
             "FROM \"students\" " +
             "ORDER BY \"student_id\"";
 
-    private static String selectBySourceIdQuery = "SELECT \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\" " +
+    private static String selectBySourceIdQuery = "SELECT \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\", \"role_id\" " +
             "FROM \"students\" " +
             "WHERE \"student_id\" = ?";
 
-    private static String selectByIdQuery = "SELECT \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\" " +
+    private static String selectByIdQuery = "SELECT \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\", \"role_id\" " +
             "FROM \"students\" " +
             "WHERE \"student_id\" = ?";
 
-    private static String insertQuery = "INSERT INTO \"students\"(\"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\") " +
-            "VALUES (?, ?, ?, ?, ?, ?, ?) " +
-            "RETURNING \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\"";
+    private static String insertQuery = "INSERT INTO \"students\"(\"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\", \"role_id\") " +
+            "VALUES (?, ?, ?, ?, ?, ?, ?, ?) " +
+            "RETURNING \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\", \"role_id\"";
 
     private static String updateQuery = "UPDATE \"students\" " +
-            "SET \"student_id\" = ?, \"s_surname\" = ?, \"s_name\" = ?, \"s_patronymic\" = ?, \"s_login\" = ?, \"s_password\" = ?, \"s_birth_date\" = ?, \"class_id\" = ? " +
+            "SET \"student_id\" = ?, \"s_surname\" = ?, \"s_name\" = ?, \"s_patronymic\" = ?, \"s_login\" = ?, \"s_password\" = ?, \"s_birth_date\" = ?, \"class_id\" = ?, \"role_id\" = ? " +
             "WHERE \"student_id\" = ? " +
-            "RETURNING \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\"";
+            "RETURNING \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\", \"role_id\"";
 
     private static String deleteQuery = "DELETE FROM \"students\" " +
             "WHERE \"student_id\" = ? " +
-            "RETURNING \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\"";
+            "RETURNING \"student_id\", \"s_surname\", \"s_name\", \"s_patronymic\", \"s_login\", \"s_password\", \"s_birth_date\", \"class_id\", \"role_id\"";
 
     public StudentRepository(JdbcOperations jdbcOperations) {
         this.jdbcOperations = jdbcOperations;
@@ -55,7 +55,8 @@ public class StudentRepository implements IRestRepository<StudentEntity> {
                             rowSet.getString(5),
                             rowSet.getString(6),
                             rowSet.getDate(7),
-                            rowSet.getInt(8)
+                            rowSet.getInt(8),
+                            rowSet.getInt(9)
                     )
             );
         }
@@ -80,14 +81,15 @@ public class StudentRepository implements IRestRepository<StudentEntity> {
                 rowSet.getString(5),
                 rowSet.getString(6),
                 rowSet.getDate(7),
-                rowSet.getInt(8)
+                rowSet.getInt(8),
+                rowSet.getInt(9)
         );
     }
 
     @Override
     public StudentEntity insert(StudentEntity entity) {
-        Object[] params = new Object[] {entity.getS_surname(), entity.getS_name(), entity.getS_patronymic(), entity.getS_login(), entity.getS_password(), entity.getS_birth_date(), entity.getClass_id()};
-        int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.INTEGER };
+        Object[] params = new Object[] {entity.getS_surname(), entity.getS_name(), entity.getS_patronymic(), entity.getS_login(), entity.getS_password(), entity.getS_birth_date(), entity.getClass_id(), entity.getRole_id()};
+        int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.INTEGER, Types.INTEGER };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(insertQuery, params, types);
         if (!rowSet.next()) {
             return null;
@@ -100,14 +102,15 @@ public class StudentRepository implements IRestRepository<StudentEntity> {
                 rowSet.getString(5),
                 rowSet.getString(6),
                 rowSet.getDate(7),
-                rowSet.getInt(8)
+                rowSet.getInt(8),
+                rowSet.getInt(9)
         );
     }
 
     @Override
     public StudentEntity update(Integer id, StudentEntity entity) {
-        Object[] params = new Object[] {entity.getS_surname(), entity.getS_name(), entity.getS_patronymic(), entity.getS_login(), entity.getS_password(), entity.getS_birth_date(), entity.getClass_id(), id };
-        int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.INTEGER };
+        Object[] params = new Object[] {entity.getS_surname(), entity.getS_name(), entity.getS_patronymic(), entity.getS_login(), entity.getS_password(), entity.getS_birth_date(), entity.getClass_id(), entity.getRole_id(), id };
+        int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.DATE, Types.INTEGER, Types.INTEGER };
         SqlRowSet rowSet = jdbcOperations.queryForRowSet(updateQuery, params, types);
         if (!rowSet.next()) {
             return null;
@@ -120,7 +123,8 @@ public class StudentRepository implements IRestRepository<StudentEntity> {
                 rowSet.getString(5),
                 rowSet.getString(6),
                 rowSet.getDate(7),
-                rowSet.getInt(8)
+                rowSet.getInt(8),
+                rowSet.getInt(9)
         );
     }
 
@@ -140,7 +144,8 @@ public class StudentRepository implements IRestRepository<StudentEntity> {
                 rowSet.getString(5),
                 rowSet.getString(6),
                 rowSet.getDate(7),
-                rowSet.getInt(8)
+                rowSet.getInt(8),
+                rowSet.getInt(9)
         );
     }
 
@@ -158,7 +163,8 @@ public class StudentRepository implements IRestRepository<StudentEntity> {
                     rowSet.getString(5),
                     rowSet.getString(6),
                     rowSet.getDate(7),
-                    rowSet.getInt(8)
+                    rowSet.getInt(8),
+                    rowSet.getInt(9)
             ));
         }
         StudentEntity[] result = new StudentEntity[values.size()];

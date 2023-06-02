@@ -1,7 +1,12 @@
 package com.example.vkr_back2.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
+@Getter
+@Setter
 public class StudentEntity extends BaseEntity {
 
     String s_surname;
@@ -11,8 +16,9 @@ public class StudentEntity extends BaseEntity {
     String s_password;
     Date s_birth_date;
     Integer class_id;
+    Integer role_id;
 
-    public StudentEntity(Integer id, String s_surname, String s_name, String s_patronymic, String s_login, String s_password, Date s_birth_date, Integer class_id) {
+    public StudentEntity(Integer id, String s_surname, String s_name, String s_patronymic, String s_login, String s_password, Date s_birth_date, Integer class_id, Integer role_id) {
         super(id);
         this.s_surname = s_surname;
         this.s_name = s_name;
@@ -21,6 +27,7 @@ public class StudentEntity extends BaseEntity {
         this.s_password = s_password;
         this.s_birth_date = s_birth_date;
         this.class_id = class_id;
+        this.role_id = role_id;
     }
 
     public String getS_surname() {

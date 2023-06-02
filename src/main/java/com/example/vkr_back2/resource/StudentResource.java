@@ -2,10 +2,14 @@ package com.example.vkr_back2.resource;
 
 import com.example.vkr_back2.entity.StudentEntity;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.xml.crypto.Data;
 import java.util.Date;
 
+@Setter
+@Getter
 public class StudentResource extends BaseResource{
 
     private Integer student_id;
@@ -16,6 +20,7 @@ public class StudentResource extends BaseResource{
     private String s_password;
     private Date s_birth_date;
     private Integer class_id;
+    private Integer role_id;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private ClassResource classResource;
@@ -31,6 +36,7 @@ public class StudentResource extends BaseResource{
         this.s_password = studentEntity.getS_password();
         this.s_birth_date = studentEntity.getS_birth_date();
         this.class_id = studentEntity.getClass_id();
+        this.role_id = studentEntity.getRole_id();
     }
 
     public Integer getStudent_id() {
@@ -114,7 +120,8 @@ public class StudentResource extends BaseResource{
                 this.s_login,
                 this.s_password,
                 this.s_birth_date,
-                this.class_id
+                this.class_id,
+                this.role_id
         );
     }
 }
